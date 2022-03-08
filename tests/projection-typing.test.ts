@@ -86,6 +86,7 @@ type Proj0Expected = {
       i: Date;
     };
   }[];
+  ' _ep': never;
 };
 expectType<Proj0>({} as Proj0Expected);
 expectType<Proj0Expected>({} as Proj0);
@@ -108,6 +109,7 @@ type Proj1Expected = {
       i: Date;
     };
   }[];
+  ' _ep': never;
 };
 expectType<Proj1>({} as Proj1Expected);
 expectType<Proj1Expected>({} as Proj1);
@@ -120,7 +122,6 @@ type Proj2 = Projected<
 >;
 type Proj2Expected = {
   _id: ObjectId;
-  ' _ip': never;
 };
 expectType<Proj2>({} as Proj2Expected);
 expectType<Proj2Expected>({} as Proj2);
@@ -145,6 +146,7 @@ type Proj3Expected = {
       i: Date;
     };
   }[];
+  ' _ep': never;
 };
 
 expectType<Proj3>({} as Proj3Expected);
@@ -159,7 +161,6 @@ type Proj4 = Projected<
 type Proj4Expected = {
   _id: ObjectId;
   a: number;
-  ' _ip': never;
 };
 expectType<Proj4>({} as Proj4Expected);
 expectType<Proj4Expected>({} as Proj4);
@@ -174,7 +175,6 @@ type Proj5 = Projected<
 type Proj5Expected = {
   _id: ObjectId;
   a: number;
-  ' _ip': never;
 };
 expectType<Proj5>({} as Proj5Expected);
 expectType<Proj5Expected>({} as Proj5);
@@ -188,7 +188,6 @@ type Proj6 = Projected<
 >;
 type Proj6Expected = {
   a: number;
-  ' _ip': never;
 };
 expectType<Proj6>({} as Proj6Expected);
 expectType<Proj6Expected>({} as Proj6);
@@ -211,7 +210,6 @@ type Proj23Expected = {
       i: Date;
     };
   }[];
-  ' _ip': never;
 };
 expectType<Proj23>({} as Proj23Expected);
 expectType<Proj23Expected>({} as Proj23);
@@ -234,6 +232,7 @@ type Proj7Expected = {
       i: Date;
     };
   }[];
+  ' _ep': never;
 };
 expectType<Proj7>({} as Proj7Expected);
 expectType<Proj7Expected>({} as Proj7);
@@ -257,6 +256,7 @@ type Proj8Expected = {
       i: Date;
     };
   }[];
+  ' _ep': never;
 };
 expectType<Proj8>({} as Proj8Expected);
 expectType<Proj8Expected>({} as Proj8);
@@ -279,6 +279,7 @@ type Proj9Expected = {
       i: Date;
     };
   }[];
+  ' _ep': never;
 };
 expectType<Proj9>({} as Proj9Expected);
 expectType<Proj9Expected>({} as Proj9);
@@ -294,7 +295,6 @@ type Proj10Expected = {
   _id: ObjectId;
   a: number;
   extra: unknown;
-  ' _ip': never;
 };
 expectType<Proj10>({} as Proj10Expected);
 expectType<Proj10Expected>({} as Proj10);
@@ -318,6 +318,7 @@ type Proj11Expected = {
       i: Date;
     };
   }[];
+  ' _ep': never;
 };
 expectType<Proj11>({} as Proj11Expected);
 expectType<Proj11Expected>({} as Proj11);
@@ -341,7 +342,6 @@ type Proj12Expected = {
       g: string;
     };
   }[];
-  ' _ip': never;
 };
 expectType<Proj12>({} as Proj12Expected);
 expectType<Proj12Expected>({} as Proj12);
@@ -363,7 +363,6 @@ type Proj13Expected = {
       i: Date;
     };
   }[];
-  ' _ip': never;
 };
 expectType<Proj13>({} as Proj13Expected);
 expectType<Proj13Expected>({} as Proj13);
@@ -388,6 +387,7 @@ type Proj14Expected = {
       i: Date;
     };
   }[];
+  ' _ep': never;
 };
 expectType<Proj14>({} as Proj14Expected);
 expectType<Proj14Expected>({} as Proj14);
@@ -406,6 +406,7 @@ type Proj15Expected = {
   _id: ObjectId;
   b: string;
   c: number;
+  ' _ep': never;
 };
 expectType<Proj15>({} as Proj15Expected);
 expectType<Proj15Expected>({} as Proj15);
@@ -430,6 +431,7 @@ type Proj16Expected = {
       h: string;
     };
   }[];
+  ' _ep': never;
 };
 expectType<Proj16>({} as Proj16Expected);
 expectType<Proj16Expected>({} as Proj16);
@@ -454,6 +456,7 @@ type Proj17Expected = {
       h: string;
     };
   }[];
+  ' _ep': never;
 };
 expectType<Proj17>({} as Proj17Expected);
 expectType<Proj17Expected>({} as Proj17);
@@ -477,7 +480,6 @@ type Proj18Expected = {
       g: string;
     };
   }[];
-  ' _ip': never;
 };
 expectType<Proj18>({} as Proj18Expected);
 expectType<Proj18Expected>({} as Proj18);
@@ -514,7 +516,6 @@ type Proj20Expected = {
       g: Date;
     };
   }[];
-  ' _ip': never;
 };
 expectType<Proj20>({} as Proj20Expected);
 expectType<Proj20Expected>({} as Proj20);
@@ -540,7 +541,6 @@ type Proj21Expected = {
       i: Date;
     };
   }[];
-  ' _ip': never;
 };
 expectType<Proj21>({} as Proj21Expected);
 expectType<Proj21Expected>({} as Proj21);
@@ -564,6 +564,7 @@ type Proj22Expected = {
       i: Date;
     };
   }[];
+  ' _ep': never;
 };
 expectType<Proj22>({} as Proj22Expected);
 expectType<Proj22Expected>({} as Proj22);
@@ -587,6 +588,7 @@ type Proj24Expected = {
       i: Date;
     };
   }[];
+  ' _ep': never;
 };
 expectType<Proj24>({} as Proj24Expected);
 expectType<Proj24Expected>({} as Proj24);
@@ -610,7 +612,6 @@ type Proj25Expected = {
       i: Date;
     };
   }[];
-  ' _ip': never;
 };
 expectType<Proj25>({} as Proj25Expected);
 expectType<Proj25Expected>({} as Proj25);
@@ -634,7 +635,6 @@ type Proj26Expected = {
       i: Date;
     };
   }[];
-  ' _ip': never;
 };
 expectType<Proj26>({} as Proj26Expected);
 expectType<Proj26Expected>({} as Proj26);

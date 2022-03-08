@@ -11,13 +11,16 @@ import {
 type GetExclusionProjectedKeys<
   D extends EntityPayload,
   P extends MongoProjection,
-  IdSpecialTreatment = false,
+  IsRootProjection = false,
 > = string &
-  (IdSpecialTreatment extends true
-    ? Exclude<P['_id'], Falsy> extends never // _id is Falsy
-      ? Exclude<keyof D, '_id' | keyof P>
-      : Exclude<keyof D, keyof P> | '_id'
-    : Exclude<keyof D, keyof P>);
+  (
+    | (IsRootProjection extends true ? ' _ep' : never)
+    | (IsRootProjection extends true
+        ? Exclude<P['_id'], Falsy> extends never // _id is Falsy
+          ? Exclude<keyof D, '_id' | keyof P>
+          : Exclude<keyof D, keyof P> | '_id'
+        : Exclude<keyof D, keyof P>)
+  );
 
 type ComputeExclusionProjectedValue<V, P extends MongoProjection> = V extends (infer Item)[] // Embedded array
   ? ComputeExclusionProjectedValue<Item, P>[]
@@ -30,7 +33,9 @@ type ExclusionProjectedRec<
   P extends MongoProjection,
   IsRootProjection = false,
 > = {
-  [Key in GetExclusionProjectedKeys<D, P, IsRootProjection>]: P[Key] extends string
+  [Key in GetExclusionProjectedKeys<D, P, IsRootProjection>]: Key extends ' _ep'
+    ? never
+    : P[Key] extends string
     ? never // Projection is using a direct primitive, but this is fobidden in an exclusion projection.
     : GetEntityValueTypeOrUnknown<D, Key> extends MongoPrimitiveObject
     ? GetEntityValueTypeOrUnknown<D, Key>
@@ -39,6 +44,8 @@ type ExclusionProjectedRec<
         PickAndUnwrapIfMatchRootKey<P, Key>
       >;
 };
+
+// Use `' _ep': never` as a (E)xclusion (P)rojection flag, so it doesnt get shown by IDEs.
 
 type OmitSliceOperator<P extends MongoProjection> = {
   // {myArray : {$slice: 42}} replaced by {}

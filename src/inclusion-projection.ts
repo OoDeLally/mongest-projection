@@ -21,8 +21,6 @@ type GetInclusionProjectedKeys<P extends MongoProjection, IdSpecialTreatment = f
       : keyof P | '_id'
     : keyof P);
 
-// Use `' _ip': never` as a (I)nclusion (P)rojection flag, so it doesnt get shown by IDEs.
-
 type ComputeInclusionProjectedValue<
   V,
   P extends MongoProjection,
@@ -39,11 +37,7 @@ type InclusionProjectedRec<
   ResolvedRefs extends EntityPayload,
   IsRootProjection = false,
 > = {
-  [Key in
-    | (IsRootProjection extends true ? ' _ip' : never)
-    | GetRootKey<GetInclusionProjectedKeys<P, IsRootProjection>>]: Key extends ' _ip'
-    ? never
-    : Key extends '_id' & keyof D
+  [Key in GetRootKey<GetInclusionProjectedKeys<P, IsRootProjection>>]: Key extends '_id' & keyof D
     ? D[Key]
     : Key extends keyof ResolvedRefs
     ? ResolvedRefs[Key]

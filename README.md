@@ -21,8 +21,8 @@ class Cat {
 
 type ProjectedCat = Projected<Cat, { name: 1 }>
 // {
-//   _id: ObjectId
-//   name: string
+//   _id: ObjectId;
+//   name: string;
 // }
 ```
 
@@ -45,7 +45,7 @@ const cat = await catService.findOne({}, { projection: { _id: false, name: 0 } }
 // {
 //   age: number;
 //   color: string;
-//   slaves: {name: string, age: number}[];
+//   slaves: { name: string, age: number }[];
 //   _ep: never;
 // }
 ```
@@ -67,7 +67,7 @@ const cat = await catService.findOne({}, { projection: { name: 1, foo: 'foo' } }
 const cat = await catService.findOne({}, { projection: { litterCleaner: '$slaves' } });
 // {
 //   _id: ObjectId;
-//   litterCleaner: {name: string, age: number}[];
+//   litterCleaner: { name: string, age: number }[];
 // }
 ```
 
@@ -77,17 +77,18 @@ const cat = await catService.findOne({}, { projection: { litterCleaner: '$slaves
 const cat = await catService.findOne({}, { projection: { 'slaves.name': 1 } });
 // {
 //   _id: ObjectId;
-//   slaves: {name: string}[];
+//   slaves: { name: string}[];
 // }
 ```
 
 ## Operators
 
 ```ts
-const cat = await catService.findOne({}, { projection: { 'slaves': {$slice: [0, 2]} } });
+const cat = await catService.findOne({}, { projection: { 'slaves': { $slice: [0, 2]} } });
 // {
 //   _id: ObjectId;
-//   slaves: {name: string, age: number}[];
+//   slaves: { name: string, age: number }[];
+//   _ep: never;
 // }
 ```
 
