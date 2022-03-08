@@ -1,0 +1,35 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": ["./tsconfig.json"]
+  },
+  "plugins": [
+    "@typescript-eslint",
+    "prettier"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
+  ],
+  "rules": {
+    "no-empty": 1,
+    "no-useless-catch": 1,
+    "no-empty-pattern": 1,
+    "no-console": 1,
+    "prettier/prettier": 1,
+    "prefer-const": 1,
+    "@typescript-eslint/no-empty-function": 1,
+    "@typescript-eslint/no-empty-interface": 0,
+    "@typescript-eslint/ban-types": 1,
+    "@typescript-eslint/switch-exhaustiveness-check": 2,
+    "no-useless-rename": 1,
+    "object-shorthand": 1,
+    "@typescript-eslint/no-use-before-define": 0,
+    "@typescript-eslint/no-non-null-assertion": 0,
+    "@typescript-eslint/no-unused-vars": [1, { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }]
+  },
+  "ignorePatterns": ["**/node_modules"]
+}
