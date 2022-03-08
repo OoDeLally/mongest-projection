@@ -10,6 +10,10 @@ This package is currently used by https://github.com/OoDeLally/mongest-service, 
 
 # Usage
 
+```
+npm i -D mongest-projection
+```
+
 ```ts
 class Cat {
   _id: ObjectId;
