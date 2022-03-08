@@ -5,13 +5,6 @@ import { Binary, Code, ObjectId, Timestamp } from 'mongodb';
 // TS considers that classes can be indexed by non-string keys.
 export type EntityPayload = object;
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type AbstractType<T = any> = abstract new (...args: any[]) => T;
-
-export type ExtractIdType<EDoc extends EntityPayload> = '_id' extends keyof EDoc
-  ? EDoc['_id']
-  : ObjectId;
-
 // https://www.tutorialspoint.com/mongodb/mongodb_datatype.htm
 export type MongoPrimitiveObject = Timestamp | Symbol | Date | ObjectId | Binary | Code | RegExp;
 
