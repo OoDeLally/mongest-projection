@@ -1,8 +1,9 @@
-import { RemovePositionalMarker } from './projection-helpers';
+import { OmitWideValues, RemovePositionalMarker } from './projection-helpers';
 import {
   EntityPayload,
   Falsy,
   IsEmptyObject,
+  IsWideValue,
   MongoProjection,
   MongoProjectionElemMatch,
   MongoProjectionSlice,
@@ -11,10 +12,7 @@ import {
 
 type RecordValuesUnion<R extends EntityPayload> = R extends Record<string, infer V> ? V : never;
 
-type isWideNumber<T> = 0 extends T ? (1 extends T ? true : false) : false;
-type isWideBoolean<T> = false extends T ? (true extends T ? true : false) : false;
-type isWideValue<T> = true extends isWideNumber<T> | isWideBoolean<T> ? true : false;
-type HasWideValues<R extends EntityPayload> = isWideValue<RecordValuesUnion<R>>;
+type HasWideValues<R extends EntityPayload> = IsWideValue<RecordValuesUnion<R>>;
 
 type IsMixedProjection<R extends EntityPayload> = HasWideValues<R> extends true // e.g. { a: number }
   ? true
@@ -46,5 +44,5 @@ type _IsInclusionProjection<P extends MongoProjection> = IsEmptyObject<P> extend
   : true; // {a: 1, b: 'foo'}
 
 export type IsInclusionProjection<P extends MongoProjection> = _IsInclusionProjection<
-  RemovePositionalMarker<OmitOperators<P>>
+  OmitWideValues<RemovePositionalMarker<OmitOperators<P>>>
 >;

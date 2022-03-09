@@ -3,64 +3,8 @@
 
 import { describe } from 'mocha';
 import { ObjectId } from 'mongodb';
-import { IsInclusionProjection } from 'src/is-inclusion-projection';
 import { Projected } from 'src/projected';
 import { expectType } from 'tsd';
-
-type Iip0 = IsInclusionProjection<{}>;
-type Iip0Expected = false;
-expectType<Iip0>({} as Iip0Expected);
-expectType<Iip0Expected>({} as Iip0);
-
-type Iip1 = IsInclusionProjection<{ _id: true }>;
-type Iip1Expected = true;
-expectType<Iip1>({} as Iip1Expected);
-expectType<Iip1Expected>({} as Iip1);
-
-type iip2 = IsInclusionProjection<{ _id: false }>;
-type Iip2Expected = false;
-expectType<iip2>({} as Iip2Expected);
-expectType<Iip2Expected>({} as iip2);
-
-type Iip3 = IsInclusionProjection<{ extraA: 1; extraB: 1 }>;
-type Iip3Expected = true;
-expectType<Iip3>({} as Iip3Expected);
-expectType<Iip3Expected>({} as Iip3);
-
-type Iip4 = IsInclusionProjection<{ extraA: 0; extraB: 0 }>;
-type Iip4Expected = false;
-expectType<Iip4>({} as Iip4Expected);
-expectType<Iip4Expected>({} as Iip4);
-
-type Iip5 = IsInclusionProjection<{ a: 1; b: 0 }>;
-type Iip5Expected = never;
-expectType<Iip5>({} as Iip5Expected);
-expectType<Iip5Expected>({} as Iip5);
-
-type Iip6 = IsInclusionProjection<{ _id: true; a: 0 }>;
-type Iip6Expected = false;
-expectType<Iip6>({} as Iip6Expected);
-expectType<Iip6Expected>({} as Iip6);
-
-type Iip7 = IsInclusionProjection<{ _id: false; a: 1 }>;
-type Iip7Expected = true;
-expectType<Iip7>({} as Iip7Expected);
-expectType<Iip7Expected>({} as Iip7);
-
-type Iip8 = IsInclusionProjection<{ a: { $slice: 1 } }>;
-type Iip8Expected = false;
-expectType<Iip8>({} as Iip8Expected);
-expectType<Iip8Expected>({} as Iip8);
-
-type Iip9 = IsInclusionProjection<{ a: { $slice: 1 }; b: 1 }>;
-type Iip9Expected = true;
-expectType<Iip9>({} as Iip9Expected);
-expectType<Iip9Expected>({} as Iip9);
-
-type Iip10 = IsInclusionProjection<{ a: number }>;
-type Iip10Expected = never;
-expectType<Iip10>({} as Iip10Expected);
-expectType<Iip10Expected>({} as Iip10);
 
 type Foo = {
   _id: ObjectId;
@@ -660,13 +604,97 @@ expectType<Proj26Expected>({} as Proj26);
 type Proj27 = Projected<
   Foo,
   {
-    a: number;
+    a: 0;
     b: number;
+    _id: false;
   }
 >;
-type Proj27Expected = never;
+type Proj27Expected = {
+  b: string | undefined; // Cannot be sure whether the field was projected.
+  c: number;
+  d: {
+    e: string;
+    f: {
+      g: string;
+      h: string;
+      i: Date;
+    };
+  }[];
+  ' _ep': never;
+};
 expectType<Proj27>({} as Proj27Expected);
 expectType<Proj27Expected>({} as Proj27);
+
+type Proj28 = Projected<
+  Foo,
+  {
+    a: 1;
+    b: number;
+    d: boolean;
+    _id: false;
+  }
+>;
+type Proj28Expected = {
+  a: number;
+  b: string | undefined; // Cannot be sure whether the field was projected.
+  d:
+    | {
+        e: string;
+        f: {
+          g: string;
+          h: string;
+          i: Date;
+        };
+      }[]
+    | undefined; // Cannot be sure whether the field was projected.
+  ' _ip': never;
+};
+expectType<Proj28>({} as Proj28Expected);
+expectType<Proj28Expected>({} as Proj28);
+
+type Proj29 = Projected<
+  Foo,
+  {
+    a: 1;
+    b: number;
+    'd.e': boolean;
+    _id: false;
+  }
+>;
+type Proj29Expected = {
+  a: number;
+  b: string | undefined; // Cannot be sure whether the field was projected.
+  d: {
+    e: string | undefined; // Cannot be sure whether the field was projected.
+  }[];
+  ' _ip': never;
+};
+expectType<Proj29>({} as Proj29Expected);
+expectType<Proj29Expected>({} as Proj29);
+
+type Proj30 = Projected<
+  Foo,
+  {
+    b: number;
+    _id: false;
+  }
+>;
+type Proj30Expected = {
+  a: number;
+  b: string | undefined; // Cannot be sure whether the field was projected.
+  c: number;
+  d: {
+    e: string;
+    f: {
+      g: string;
+      h: string;
+      i: Date;
+    };
+  }[];
+  ' _ep': never;
+};
+expectType<Proj30>({} as Proj30Expected);
+expectType<Proj30Expected>({} as Proj30);
 
 describe('Projection typing tests', () => {
   it('runs the typing without error', () => {

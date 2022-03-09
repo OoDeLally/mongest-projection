@@ -7,6 +7,7 @@ import { ResolveProjectionReference } from './resolve-projection-reference';
 import {
   EntityPayload,
   Falsy,
+  IsWideValue,
   MongoProjection,
   MongoProjectionElemMatch,
   MongoProjectionSlice,
@@ -32,7 +33,7 @@ type ComputeInclusionProjectedValue<
   ? ComputeInclusionProjectedValue<Item, P, ResolvedRefs>[]
   : V extends object // Embedded object
   ? InclusionProjectedRec<V, P, ResolvedRefs>
-  : V; // Primitive value
+  : V; // Primitive value. Should not happen in theory because it should be handled by InclusionProjectedRec.
 
 type InclusionProjectedRec<
   D extends EntityPayload,
@@ -49,7 +50,11 @@ type InclusionProjectedRec<
     : P[Key] extends string
     ? P[Key] // Projection is using a direct primitive.
     : Key extends keyof D & keyof P
-    ? D[Key] // The key matches exactly a key from the document.
+    ?
+        | D[Key] // The key matches exactly a key from the document.
+        | (IsWideValue<P[Key]> extends true
+            ? undefined // Cannot be sure whether the field was projected.
+            : never)
     : ComputeInclusionProjectedValue<
         GetEntityValueTypeOrUnknown<D, Key>,
         PickAndUnwrapIfMatchRootKey<P, Key>,

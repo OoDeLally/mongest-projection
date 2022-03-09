@@ -30,3 +30,16 @@ export type MongoProjection = {
 export type OmitId<T> = Omit<T, '_id'>;
 
 export type IsEmptyObject<T> = T extends Record<string, never> ? true : false;
+
+type IsWideNumber<T> = 0 extends T ? (1 extends T ? true : false) : false;
+type IsWideBoolean<T> = false extends T ? (true extends T ? true : false) : false;
+export type IsWideValue<T> = true extends IsWideNumber<T> | IsWideBoolean<T> ? true : false;
+
+export type And<A extends boolean, B extends boolean> = A | B extends true ? true : false;
+export type And3<A extends boolean, B extends boolean, C extends boolean> = And<A, And<B, C>>;
+
+export type IfThenElse<Condition extends boolean, ValIfTrue, ValIfFalse> = Condition extends true
+  ? ValIfTrue
+  : ValIfFalse;
+
+export type Extends<A, B> = A extends B ? true : false;

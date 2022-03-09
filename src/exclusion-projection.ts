@@ -1,7 +1,15 @@
-import { GetEntityValueTypeOrUnknown, PickAndUnwrapIfMatchRootKey } from './projection-helpers';
 import {
+  GetEntityValueTypeOrUnknown,
+  PickAndUnwrapIfMatchRootKey,
+  WideValuesKeys,
+} from './projection-helpers';
+import {
+  And3,
   EntityPayload,
+  Extends,
   Falsy,
+  IfThenElse,
+  IsWideValue,
   MongoPrimitiveObject,
   MongoProjection,
   MongoProjectionElemMatch,
@@ -15,6 +23,7 @@ type GetExclusionProjectedKeys<
 > = string &
   (
     | (IsRootProjection extends true ? ' _ep' : never)
+    | WideValuesKeys<P> // Cannot be sure whether the field was projected, so we include it.
     | (IsRootProjection extends true
         ? Exclude<P['_id'], Falsy> extends never // _id is Falsy
           ? Exclude<keyof D, '_id' | keyof P>
@@ -22,11 +31,12 @@ type GetExclusionProjectedKeys<
         : Exclude<keyof D, keyof P>)
   );
 
-type ComputeExclusionProjectedValue<V, P extends MongoProjection> = V extends (infer Item)[] // Embedded array
-  ? ComputeExclusionProjectedValue<Item, P>[]
+type ComputeExclusionProjectedValue<V, Key, P extends MongoProjection> = V extends (infer Item)[] // Embedded array
+  ? ComputeExclusionProjectedValue<Item, Key, P>[]
   : V extends object // Embedded object
   ? ExclusionProjectedRec<V, P>
-  : V; // Primitive value
+  : // Primitive value
+    V;
 
 type ExclusionProjectedRec<
   D extends EntityPayload,
@@ -39,9 +49,14 @@ type ExclusionProjectedRec<
     ? never // Projection is using a direct primitive, but this is fobidden in an exclusion projection.
     : GetEntityValueTypeOrUnknown<D, Key> extends MongoPrimitiveObject
     ? GetEntityValueTypeOrUnknown<D, Key>
-    : ComputeExclusionProjectedValue<
-        GetEntityValueTypeOrUnknown<D, Key>,
-        PickAndUnwrapIfMatchRootKey<P, Key>
+    : IfThenElse<
+        And3<IsWideValue<P[Key]>, Extends<Key, keyof D>, Extends<Key, keyof P>>,
+        Key extends keyof D ? D[Key] | undefined : never,
+        ComputeExclusionProjectedValue<
+          GetEntityValueTypeOrUnknown<D, Key>,
+          Key,
+          PickAndUnwrapIfMatchRootKey<P, Key>
+        >
       >;
 };
 
