@@ -110,7 +110,7 @@ const cat = await catService.findOne({}, { projection: { name: 1, enemy: 1 } });
 
 # FAQ
 
-## ` _ip`, ` _ep` flag
+## ` _ip`, ` _ep` flags
 
 Documents projected with an **I**nclusion/**E**nclusion **P**rojection have an extra `{ ' _ip': never }`/`{ ' _ep': never }` field.
 This flag provides the information that the projection was an exclusion projection, it is possible that the object contains more fields not documented by the type.
