@@ -28,3 +28,5 @@ export type MongoProjection = {
 };
 
 export type OmitId<T> = Omit<T, '_id'>;
+
+export type IsEmptyObject<T> = T extends Record<string, never> ? true : false;

@@ -2,6 +2,7 @@ import { RemovePositionalMarker } from './projection-helpers';
 import {
   EntityPayload,
   Falsy,
+  IsEmptyObject,
   MongoProjection,
   MongoProjectionElemMatch,
   MongoProjectionSlice,
@@ -15,8 +16,6 @@ type IsMixedProjection<R extends EntityPayload> = Extract<RecordValuesUnion<R>, 
   : Exclude<RecordValuesUnion<R>, Falsy> extends never
   ? false // Inclusion projection => Not mixed => false
   : true;
-
-type IsEmptyObject<T> = T extends Record<string, never> ? true : false;
 
 type OmitOperators<P extends MongoProjection> = {
   [Key in keyof P as P[Key] extends MongoProjectionSlice | MongoProjectionElemMatch

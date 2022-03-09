@@ -14,12 +14,15 @@ import {
 
 type GetRootKey<Key extends string> = Key extends `${infer Prefix}.${string}` ? Prefix : Key;
 
-type GetInclusionProjectedKeys<P extends MongoProjection, IdSpecialTreatment = false> = string &
-  (IdSpecialTreatment extends true
-    ? Exclude<P['_id'], Falsy> extends never
-      ? Exclude<keyof P, '_id'>
-      : keyof P | '_id'
-    : keyof P);
+type GetInclusionProjectedKeys<P extends MongoProjection, IsRootProjection = false> = string &
+  (
+    | (IsRootProjection extends true ? ' _ip' : never)
+    | (IsRootProjection extends true
+        ? Exclude<P['_id'], Falsy> extends never
+          ? Exclude<keyof P, '_id'>
+          : keyof P | '_id'
+        : keyof P)
+  );
 
 type ComputeInclusionProjectedValue<
   V,
@@ -37,7 +40,9 @@ type InclusionProjectedRec<
   ResolvedRefs extends EntityPayload,
   IsRootProjection = false,
 > = {
-  [Key in GetRootKey<GetInclusionProjectedKeys<P, IsRootProjection>>]: Key extends '_id' & keyof D
+  [Key in GetRootKey<GetInclusionProjectedKeys<P, IsRootProjection>>]: Key extends ' _ip'
+    ? never
+    : Key extends '_id' & keyof D
     ? D[Key]
     : Key extends keyof ResolvedRefs
     ? ResolvedRefs[Key]
