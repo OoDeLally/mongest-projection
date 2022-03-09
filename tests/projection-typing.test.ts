@@ -605,7 +605,7 @@ type Proj27 = Projected<
   Foo,
   {
     a: 0;
-    b: number;
+    b: boolean;
     _id: false;
   }
 >;
@@ -629,7 +629,7 @@ type Proj28 = Projected<
   Foo,
   {
     a: 1;
-    b: number;
+    b: boolean;
     d: boolean;
     _id: false;
   }
@@ -656,7 +656,7 @@ type Proj29 = Projected<
   Foo,
   {
     a: 1;
-    b: number;
+    b: boolean;
     'd.e': boolean;
     _id: false;
   }
@@ -675,7 +675,7 @@ expectType<Proj29Expected>({} as Proj29);
 type Proj30 = Projected<
   Foo,
   {
-    b: number;
+    b: boolean;
     _id: false;
   }
 >;

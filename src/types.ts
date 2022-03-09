@@ -24,7 +24,7 @@ export type MongoProjectionElemMatch = { $elemMatch: object };
 export type MongoProjectionOperator = MongoProjectionSlice | MongoProjectionElemMatch;
 
 export type MongoProjection = {
-  [Key in string]: number | boolean | string | MongoProjectionOperator;
+  [Key in string]: 1 | 0 | boolean | string | MongoProjectionOperator;
 };
 
 export type OmitId<T> = Omit<T, '_id'>;
