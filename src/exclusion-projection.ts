@@ -51,7 +51,7 @@ type ExclusionProjectedRec<
     ? GetEntityValueTypeOrUnknown<D, Key>
     : IfThenElse<
         And3<IsWideValue<P[Key]>, Extends<Key, keyof D>, Extends<Key, keyof P>>,
-        Key extends keyof D ? D[Key] | undefined : never,
+        Key extends keyof D ? D[Key] | undefined : never, // Cannot be sure whether the field was projected.
         ComputeExclusionProjectedValue<
           GetEntityValueTypeOrUnknown<D, Key>,
           Key,
