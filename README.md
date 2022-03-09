@@ -27,6 +27,7 @@ type ProjectedCat = Projected<Cat, { name: 1 }>
 // {
 //   _id: ObjectId;
 //   name: string;
+//   ' _ip': never;
 // }
 ```
 
@@ -39,6 +40,7 @@ const cat = await catService.findOne({}, { projection: { name: 1 } });
 // {
 //   _id: ObjectId;
 //   name: string;
+//   ' _ip': never;
 // }
 ```
 
@@ -50,7 +52,7 @@ const cat = await catService.findOne({}, { projection: { _id: false, name: 0 } }
 //   age: number;
 //   color: string;
 //   slaves: { name: string, age: number }[];
-//   _ep: never;
+//   ' _ep': never;
 // }
 ```
 
@@ -62,6 +64,7 @@ const cat = await catService.findOne({}, { projection: { name: 1, foo: 'foo' } }
 //   _id: ObjectId;
 //   name: string;
 //   foo: 'foo';
+//   ' _ip': never;
 // }
 ```
 
@@ -72,6 +75,7 @@ const cat = await catService.findOne({}, { projection: { litterCleaner: '$slaves
 // {
 //   _id: ObjectId;
 //   litterCleaner: { name: string, age: number }[];
+//   ' _ip': never;
 // }
 ```
 
@@ -82,6 +86,7 @@ const cat = await catService.findOne({}, { projection: { 'slaves.name': 1 } });
 // {
 //   _id: ObjectId;
 //   slaves: { name: string}[];
+//   ' _ip': never;
 // }
 ```
 
@@ -92,7 +97,7 @@ const cat = await catService.findOne({}, { projection: { 'slaves': { $slice: [0,
 // {
 //   _id: ObjectId;
 //   slaves: { name: string, age: number }[];
-//   _ep: never;
+//   ' _ep': never;
 // }
 ```
 
@@ -104,6 +109,7 @@ const cat = await catService.findOne({}, { projection: { name: 1, enemy: 1 } });
 //   _id: ObjectId;
 //   name: string;
 //   enemy: unknown; // The returned doc MAY have a `enemy` field, but the `Cat` class does not provide a type.
+//   ' _ip': never;
 // }
 ```
 
