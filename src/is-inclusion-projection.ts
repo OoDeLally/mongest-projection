@@ -11,7 +11,14 @@ import {
 
 type RecordValuesUnion<R extends EntityPayload> = R extends Record<string, infer V> ? V : never;
 
-type IsMixedProjection<R extends EntityPayload> = Extract<RecordValuesUnion<R>, Falsy> extends never
+type isWideNumber<T> = 0 extends T ? (1 extends T ? true : false) : false;
+type isWideBoolean<T> = false extends T ? (true extends T ? true : false) : false;
+type isWideValue<T> = true extends isWideNumber<T> | isWideBoolean<T> ? true : false;
+type HasWideValues<R extends EntityPayload> = isWideValue<RecordValuesUnion<R>>;
+
+type IsMixedProjection<R extends EntityPayload> = HasWideValues<R> extends true // e.g. { a: number }
+  ? true
+  : Extract<RecordValuesUnion<R>, Falsy> extends never
   ? false // Exclusion projection => Not mixed => false
   : Exclude<RecordValuesUnion<R>, Falsy> extends never
   ? false // Inclusion projection => Not mixed => false

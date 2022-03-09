@@ -57,6 +57,11 @@ type Iip9Expected = true;
 expectType<Iip9>({} as Iip9Expected);
 expectType<Iip9Expected>({} as Iip9);
 
+type Iip10 = IsInclusionProjection<{ a: number }>;
+type Iip10Expected = never;
+expectType<Iip10>({} as Iip10Expected);
+expectType<Iip10Expected>({} as Iip10);
+
 type Foo = {
   _id: ObjectId;
   a: number;
@@ -651,6 +656,17 @@ type Proj26Expected = {
 };
 expectType<Proj26>({} as Proj26Expected);
 expectType<Proj26Expected>({} as Proj26);
+
+type Proj27 = Projected<
+  Foo,
+  {
+    a: number;
+    b: number;
+  }
+>;
+type Proj27Expected = never;
+expectType<Proj27>({} as Proj27Expected);
+expectType<Proj27Expected>({} as Proj27);
 
 describe('Projection typing tests', () => {
   it('runs the typing without error', () => {
