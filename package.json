@@ -1,6 +1,6 @@
 {
   "name": "mongest-projection",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Delightfully-typed Mongoose projection",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
